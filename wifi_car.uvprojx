@@ -646,6 +646,21 @@
               <FileType>1</FileType>
               <FilePath>.\Bsp\esp8266_bsp.c</FilePath>
             </File>
+            <File>
+              <FileName>camera_bsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Bsp\camera_bsp.c</FilePath>
+            </File>
+            <File>
+              <FileName>ov9650_bsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Bsp\ov9650_bsp.c</FilePath>
+            </File>
+            <File>
+              <FileName>iic_bsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Bsp\iic_bsp.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

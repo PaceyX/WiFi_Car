@@ -82,8 +82,6 @@
 #define INF_1_GPIO_Port GPIOB
 #define INR_1_Pin GPIO_PIN_1
 #define INR_1_GPIO_Port GPIOB
-#define IMU_SCL_Pin GPIO_PIN_10
-#define IMU_SCL_GPIO_Port GPIOB
 #define ECHO_B_Pin GPIO_PIN_12
 #define ECHO_B_GPIO_Port GPIOB
 #define NETLINK_Pin GPIO_PIN_13
@@ -112,8 +110,6 @@
 #define DCMI_D4_GPIO_Port GPIOC
 #define DCMI_D9_Pin GPIO_PIN_12
 #define DCMI_D9_GPIO_Port GPIOC
-#define IMU_SDA_Pin GPIO_PIN_3
-#define IMU_SDA_GPIO_Port GPIOB
 #define DCMI_SDA_Pin GPIO_PIN_4
 #define DCMI_SDA_GPIO_Port GPIOB
 #define DCMI_D5_Pin GPIO_PIN_6

@@ -29,5 +29,5 @@ void UserInit(void)
 	
 	RunFlagInit();
 	
-	Esp8266_Send_Cmd("AT", rece, ReceiveAck, 10);
+//	Esp8266_Send_Cmd("AT", rece, ReceiveAck, 10);
 }
