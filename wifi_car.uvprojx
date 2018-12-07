@@ -661,6 +661,11 @@
               <FileType>1</FileType>
               <FilePath>.\Bsp\iic_bsp.c</FilePath>
             </File>
+            <File>
+              <FileName>Sensor_OV9650.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Bsp\Sensor_OV9650.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
