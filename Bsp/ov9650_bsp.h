@@ -3,6 +3,7 @@
 
 
 #include "mcu_lib.h"
+#include "camera_bsp.h"
 
 
 
@@ -15,6 +16,10 @@
 #define OV9650_PID_ADDR     0x0A
 #define OV9650_VER_VALUE    0x50    
 #define OV9650_VER_ADDR     0x0B
+
+
+
+uint16_t OV9650_ReadID(uint16_t DeviceAddr);
 
 
 #endif

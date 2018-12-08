@@ -7,6 +7,8 @@
 #include "app_comm1.h"
 #include "app_comm2_wifi.h"
 #include "esp8266_bsp.h"
+#include "ov9650_bsp.h"
+#include "iic_soft_bsp.h"
 
 
 void AppMainLoop(void)
@@ -17,6 +19,7 @@ void AppMainLoop(void)
 		Comm2_SendToWifiTask();
 		Comm1_Task();
 		Comm2_Task();
+
 	}
 }
 
@@ -28,6 +31,7 @@ void UserInit(void)
 	Comm2_Init(&huart2);
 	
 	RunFlagInit();
+	OV9650_ReadID(0x01);
 	
 //	Esp8266_Send_Cmd("AT", rece, ReceiveAck, 10);
 }
