@@ -87,3 +87,5 @@ u8 Comm1_SendData(u8 *data, u16 len)
 {
     return CommUsart_SendData(&CommUsart, data, len);
 }
+
+
