@@ -53,6 +53,7 @@ void RunFlagHandleTask(void)
 	TIME_FLAG(1000);
 	
 	if(RunFlag.ms1000)	HAL_GPIO_TogglePin(GPIOA, LED0_Pin);
+	
 }
 
 
