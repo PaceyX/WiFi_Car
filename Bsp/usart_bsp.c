@@ -147,20 +147,20 @@ void CommUsart_EnableIT(CommUsartType *hcomm, bool en)
 */
 HAL_StatusTypeDef USER_UART_Transmit_DMA(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t tx_tc_flag)
 {
-//    if(__HAL_DMA_GET_FLAG(huart->hdmatx, tx_tc_flag))
-//    {
-	if(huart->gState == HAL_UART_STATE_BUSY_TX_RX)
-	{
-		huart->gState = HAL_UART_STATE_BUSY_TX;
-	}
-	else
-	{
-		huart->gState = HAL_UART_STATE_READY;
-	}
-	
-	__HAL_UNLOCK(huart->hdmatx);
-	__HAL_DMA_CLEAR_FLAG(huart->hdmatx, tx_tc_flag);
-//    }
+    if(__HAL_DMA_GET_FLAG(huart->hdmatx, tx_tc_flag))
+    {
+		if(huart->gState == HAL_UART_STATE_BUSY_TX_RX)
+		{
+			huart->gState = HAL_UART_STATE_BUSY_TX;
+		}
+		else
+		{
+			huart->gState = HAL_UART_STATE_READY;
+		}
+		
+		__HAL_UNLOCK(huart->hdmatx);
+		__HAL_DMA_CLEAR_FLAG(huart->hdmatx, tx_tc_flag);
+    }
     return HAL_UART_Transmit_DMA(huart, (uint8_t*)pData, Size);
 }
 

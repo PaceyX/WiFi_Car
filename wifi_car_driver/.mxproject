@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=D:/Engineer/RobotWorkspace/16, Wifi Car/Embeded/mcu/wifi_car_driver/Inc
+HeaderPath=F:/Engineer/Pacey/wifi_car/mcu/wifi_car_driver/Inc
 HeaderFiles=gpio.h;adc.h;dcmi.h;dma.h;i2c.h;tim.h;usart.h;stm32f4xx_it.h;stm32f4xx_hal_conf.h;main.h;
-SourcePath=D:/Engineer/RobotWorkspace/16, Wifi Car/Embeded/mcu/wifi_car_driver/Src
+SourcePath=F:/Engineer/Pacey/wifi_car/mcu/wifi_car_driver/Src
 SourceFiles=gpio.c;adc.c;dcmi.c;dma.c;i2c.c;tim.c;usart.c;stm32f4xx_it.c;stm32f4xx_hal_msp.c;main.c;
 
 [PreviousLibFiles]

@@ -15,7 +15,7 @@ static NaviPack_HeadType TxQueuePool[10];
 
 static u8 CommTxBuffer[100*2];
 static u8 CommRxBuffer[100];
-static u8 UartBuffer[UART2_BUFF_SIZE];
+static u8 UartBuffer2[UART2_BUFF_SIZE];
 
 /**
 * @brief  通讯传输层初始化
@@ -38,7 +38,7 @@ bool Comm2_Init(UART_HandleTypeDef *huart)
     NaviPack_Init();
     
     CommUsart2.buffer_size = UART2_BUFF_SIZE;
-    CommUsart2.dma_rx_buffer = UartBuffer;
+    CommUsart2.dma_rx_buffer = UartBuffer2;
     
     CommUsart_Init(&CommUsart2, huart);
 
