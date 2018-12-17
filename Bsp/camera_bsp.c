@@ -16,7 +16,7 @@ void Bsp_Camera_Init(uint32_t resolution)
   */
 static void I2Cx_Error(uint8_t Addr)
 {
-
+	
 }
 
 /**

@@ -28,7 +28,7 @@ bool CommUsart_CanSendData(CommUsartType *hcomm);
 bool CommUsart_RecvData(CommUsartType *hcomm, uint8_t **pbuf, uint32_t* plen);
 bool CommUsart_RecvDataByLength(CommUsartType *hcomm, uint8_t *buf, uint32_t len, uint32_t timeout);
 void CommUsart_EnableIT(CommUsartType *hcomm, bool en);
-HAL_StatusTypeDef USER_UART_Transmit_DMA(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t tx_tc_flag);
+HAL_StatusTypeDef USER_UART_Transmit_DMA(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size);
 
 
 

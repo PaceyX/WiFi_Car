@@ -10,8 +10,9 @@
 #include "ov9650_bsp.h"
 #include "iic_soft_bsp.h"
 
-//u8 send[10] = {"abcdefg\n"};
-//u32 flag;
+
+uint8_t aTxBuffer[] = " ****UART_TwoBoards_ComIT****  ****UART_TwoBoards_ComIT****  ****UART_TwoBoards_ComIT**** ";
+
 void AppMainLoop(void)
 {
 	while(1)
@@ -20,9 +21,13 @@ void AppMainLoop(void)
 		Comm2_SendToWifiTask();
 		Comm1_Task();
 		Comm2_Task();
-//		HAL_Delay(100);
-//		Comm1_SendData(send, sizeof(send));
-//		Comm2_SendData(send, sizeof(send));
+
+		HAL_Delay(100);
+		
+		Comm1_SendData(aTxBuffer, sizeof(aTxBuffer));
+		Comm2_SendData(aTxBuffer, sizeof(aTxBuffer));
+
+
 	}
 }
 
@@ -33,5 +38,5 @@ void UserInit(void)
 	IIC_GPIO_Init();
 	Comm1_Init(&huart1);
 	Comm2_Init(&huart2);
-	RunFlagInit();
+
 }

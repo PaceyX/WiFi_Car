@@ -23,7 +23,7 @@ void CommUsart_Init(CommUsartType *hcomm, UART_HandleTypeDef *huart)
     hcomm->tx_tc_flag = __HAL_DMA_GET_TC_FLAG_INDEX(huart->hdmatx);			/* Transfer complete flag: TC = 1 (TX Line). */
     hcomm->offset = 0;
     
-    __HAL_UART_CLEAR_OREFLAG(huart);										/* Clear SR and DR Register. */
+//    __HAL_UART_CLEAR_OREFLAG(huart);										/* Clear SR and DR Register. */
     HAL_DMA_Start(huart->hdmarx, \
 				(uint32_t)&huart->Instance->DR, \
 				(uint32_t)hcomm->dma_rx_buffer, \
@@ -40,7 +40,7 @@ void CommUsart_Init(CommUsartType *hcomm, UART_HandleTypeDef *huart)
 */
 uint8_t CommUsart_SendData(CommUsartType *hcomm, const uint8_t *data, uint16_t len)
 {
-    return USER_UART_Transmit_DMA(hcomm->huart, data, len, hcomm->tx_tc_flag) == HAL_OK;
+    return USER_UART_Transmit_DMA(hcomm->huart, data, len) == HAL_OK;
 }
 
 /**
@@ -145,22 +145,22 @@ void CommUsart_EnableIT(CommUsartType *hcomm, bool en)
 * @param  tx_tc_flag : 发送完成 flag 偏移
 * @retval None
 */
-HAL_StatusTypeDef USER_UART_Transmit_DMA(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t tx_tc_flag)
+HAL_StatusTypeDef USER_UART_Transmit_DMA(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size)
 {
-    if(__HAL_DMA_GET_FLAG(huart->hdmatx, tx_tc_flag))
-    {
-		if(huart->gState == HAL_UART_STATE_BUSY_TX_RX)
-		{
-			huart->gState = HAL_UART_STATE_BUSY_TX;
-		}
-		else
-		{
-			huart->gState = HAL_UART_STATE_READY;
-		}
-		
-		__HAL_UNLOCK(huart->hdmatx);
-		__HAL_DMA_CLEAR_FLAG(huart->hdmatx, tx_tc_flag);
-    }
+//    if(__HAL_DMA_GET_FLAG(huart->hdmatx, tx_tc_flag))
+//    {
+//		if(huart->gState == HAL_UART_STATE_BUSY_TX_RX)
+//		{
+//			huart->gState = HAL_UART_STATE_BUSY_TX;
+//		}
+//		else
+//		{
+//			huart->gState = HAL_UART_STATE_READY;
+//		}
+//		
+//		__HAL_UNLOCK(huart->hdmatx);
+//		__HAL_DMA_CLEAR_FLAG(huart->hdmatx, tx_tc_flag);
+//    }
     return HAL_UART_Transmit_DMA(huart, (uint8_t*)pData, Size);
 }
 
