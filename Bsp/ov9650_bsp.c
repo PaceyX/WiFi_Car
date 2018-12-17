@@ -4,7 +4,7 @@
 
 
 
-uint8_t i2c_cmd[2];
+
 
 
 /**
@@ -14,15 +14,7 @@ uint8_t i2c_cmd[2];
   */
 uint16_t OV9650_ReadID(uint16_t DeviceAddr)
 {
-	uint8_t address = 0;
-
-	address = (uint8_t)(((0x68 + 0) << 1) | 0x01);
-	
-	i2c_cmd[0] = IIC_ReadOneByte(address, 0x75);
-	
-//	IIC_WriteOneByte(OV9650_I2C_ADDR_W, 0xFF, 0x01);		/* 原理待确认. */
-//	
-//	IIC_ReadmultiyBytes(OV9650_I2C_ADDR_R, OV9650_PID_ADDR, 2, i2c_cmd);
+	uint8_t i2c_cmd[2];
 	
 	return i2c_cmd[0];
 }

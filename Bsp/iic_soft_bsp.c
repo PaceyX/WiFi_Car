@@ -21,12 +21,7 @@ void IIC_GPIO_Init(void)
     GPIO_Initure.Pull=GPIO_PULLUP;          //上拉
     GPIO_Initure.Speed=GPIO_SPEED_FAST;     //快速
     HAL_GPIO_Init(GPIOB,&GPIO_Initure);
-    
-	IIC_SDA=0;
-    IIC_SCL=0;  
-	
-    IIC_SCL=1;  
-	
+
     IIC_SDA=1;
     IIC_SCL=1;  
 }

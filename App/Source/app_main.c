@@ -26,12 +26,12 @@ void AppMainLoop(void)
 	}
 }
 
-char rece[20];
- 
+
 void UserInit(void)
 {
 	RunFlagInit();
 	IIC_GPIO_Init();
 	Comm1_Init(&huart1);
 	Comm2_Init(&huart2);
+	RunFlagInit();
 }
