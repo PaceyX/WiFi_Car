@@ -22,10 +22,10 @@ void AppMainLoop(void)
 		Comm1_Task();
 		Comm2_Task();
 
-		HAL_Delay(100);
-		
-		Comm1_SendData(aTxBuffer, sizeof(aTxBuffer));
-		Comm2_SendData(aTxBuffer, sizeof(aTxBuffer));
+//		HAL_Delay(100);
+//		
+//		Comm1_SendData(aTxBuffer, sizeof(aTxBuffer));
+//		Comm2_SendData(aTxBuffer, sizeof(aTxBuffer));
 
 
 	}
@@ -35,6 +35,7 @@ void AppMainLoop(void)
 void UserInit(void)
 {
 	RunFlagInit();
+	HAL_GPIO_WritePin(GPIOB, NETLINK_Pin, GPIO_PIN_SET);
 	IIC_GPIO_Init();
 	Comm1_Init(&huart1);
 	Comm2_Init(&huart2);

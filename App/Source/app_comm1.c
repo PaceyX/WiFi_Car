@@ -2,6 +2,7 @@
 #include "navipack_api.h"
 #include "usart_bsp.h"
 #include "queue.h"
+#include "app_comm2_wifi.h"
 
 
 #define UART1_BUFF_SIZE  128
@@ -71,10 +72,12 @@ void Comm1_Task(void)
     // RX
     if(CommUsart_RecvData(&CommUsart, &data, &len))
     {
-        for(i=0; i<len; i++)
-        {
+//        for(i=0; i<len; i++)
+//        {
 //            Comm_RecvPackage(data[i]);
-        }
+			Comm2_SendData(data, len);
+					
+//        }
     }
 }
 
