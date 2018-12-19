@@ -69,11 +69,10 @@ void Comm2_Task(void)
     // RX
     if(CommUsart_RecvData(&CommUsart2, &data, &len))
     {
-//        for(i=0; i<len; i++)
-//        {
-//            NaviPack_RxProcessor(&NavipackComm2, data[i]);
-						Comm1_SendData(data, len);
-//        }
+        for(i=0; i<len; i++)
+        {
+            NaviPack_RxProcessor(&NavipackComm2, data[i]);
+        }
     }
 }
 

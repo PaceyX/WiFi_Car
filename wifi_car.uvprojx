@@ -591,6 +591,11 @@
               <FileType>1</FileType>
               <FilePath>.\App\Arithmetic\queue.c</FilePath>
             </File>
+            <File>
+              <FileName>c_algorithm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\App\Arithmetic\c_algorithm.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

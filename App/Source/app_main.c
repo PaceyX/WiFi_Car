@@ -18,7 +18,7 @@ void AppMainLoop(void)
 	while(1)
 	{
 		RunFlagHandleTask();
-		Comm2_SendToWifiTask();
+//		Comm2_SendToWifiTask();
 		Comm1_Task();
 		Comm2_Task();
 
@@ -39,5 +39,8 @@ void UserInit(void)
 	IIC_GPIO_Init();
 	Comm1_Init(&huart1);
 	Comm2_Init(&huart2);
+	
+	HAL_Delay(100);
+	Esp8266_Init();
 
 }
