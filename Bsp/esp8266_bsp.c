@@ -1,9 +1,11 @@
 #include "esp8266_bsp.h"
 #include "app_comm1.h"
+#include "c_algorithm.h"
 
 
-char * ack_debug;
-uint8_t EspAckInfo[100];
+#define ACK_BUF_SIZE	100
+
+uint8_t EspAckInfo[ACK_BUF_SIZE];
 
 /**
 *	@brief	Send cmd to esp8266.
@@ -22,16 +24,16 @@ bool Esp8266_Send_Cmd(char * cmd, char * reply1, AckType cmd_type, uint32_t wait
 	u32 length;
 	u8 * ret = &EspAckInfo[0];
 	
-	memset(ret, 0, sizeof((char *)ret));	/* clear all ack buf. */
+	memset(ret, 0, ACK_BUF_SIZE);	/* clear all ack buf. */
 	
 	/* send */
 	if(cmd_type == NoAck)
 	{
-		Comm2_SendData((uint8_t *)(cmd), sizeof(cmd));
+		Comm2_SendData((uint8_t *)(cmd), CalculateStringlength((uint8_t *)cmd));
 		return true;
 	}
 	
-	Comm2_SendData((uint8_t *)(cmd), sizeof(cmd));
+	Comm2_SendData((uint8_t *)(cmd), CalculateStringlength((uint8_t *)cmd));
 	
 	/* wait received result or until timeout. */
 	time = HAL_GetTick();
@@ -50,7 +52,7 @@ bool Esp8266_Send_Cmd(char * cmd, char * reply1, AckType cmd_type, uint32_t wait
 			}
 		}
 		
-		if( time2 != 0 && ((HAL_GetTick() - time2) > 50 ) )		/* receive and done*/
+		if( time2 != 0 && ((HAL_GetTick() - time2) > 100 ) )		/* receive and done*/
 		{
 			if(strstr((char *)ret, reply1) != NULL)
 				return true;
@@ -66,25 +68,97 @@ bool ESP8266_Set_Mode(ModeTypeDef mode)
 	switch ( mode )
 	{
 		case STA:
-			return Esp8266_Send_Cmd( "AT+CWMODE=1", "OK", ReceiveAck, 2500 ); 
+			return Esp8266_Send_Cmd( "AT+CWMODE=1\r\n", "OK", ReceiveAck, 2500 ); 
 		case AP:
-		  return Esp8266_Send_Cmd( "AT+CWMODE=2", "OK", ReceiveAck, 2500 ); 
+		  return Esp8266_Send_Cmd( "AT+CWMODE=2\r\n", "OK", ReceiveAck, 2500 ); 
 		case STA_AP:
-		  return Esp8266_Send_Cmd( "AT+CWMODE=3", "OK", ReceiveAck, 2500 ); 
+		  return Esp8266_Send_Cmd( "AT+CWMODE=3\r\n", "OK", ReceiveAck, 2500 ); 
 		default:
 		  return false;
 	}
 }
 
+bool ESP8266_Set_AP(char * ip)
+{
+	char ip_cmd[30];
+	
+	sprintf(ip_cmd, "AT+CIPAP=\"%s\"\r\n", ip);
+	
+	return Esp8266_Send_Cmd(ip_cmd, "OK", ReceiveAck, 5000);
+}
+
+/**
+*	@brief	Build AP.
+*/
+bool ESP8266_Build_AP(char * ssid, char * password, ApEncryptTypeDef encrypt_mode)
+{
+	char cmd[120];
+	
+	sprintf (cmd, "AT+CWSAP=\"%s\",\"%s\",1,%d\r\n", ssid, password, encrypt_mode);
+	
+	return Esp8266_Send_Cmd(cmd, "OK", ReceiveAck, 1000);
+}
+
+bool ESP8266_Enable_MultiLink(FunctionalState sw)
+{
+	char cmd[20];
+	
+	sprintf(cmd, "AT+CIPMUX=%d\r\n", ( sw ? 1 : 0 ));
+	
+	return Esp8266_Send_Cmd(cmd, "OK", ReceiveAck, 500 );
+}
+
+bool ESP8266_Enable_Server(char * port_num, char * out_time)
+{
+	char cmd1[120], cmd2[120];
+	
+	sprintf ( cmd1, "AT+CIPSERVER=%d,%s\r\n", 1, port_num );
+	sprintf ( cmd2, "AT+CIPSTO=%s\r\n", out_time );
+	
+	return Esp8266_Send_Cmd(cmd1, "OK", ReceiveAck, 500) && Esp8266_Send_Cmd(cmd2, "OK", ReceiveAck, 500);
+	
+}
+
+bool ESP8266_Shutdown_Server(char * port_num)
+{
+	char cmd[120];
+	
+	sprintf (cmd, "AT+CIPSERVER=%d,%s\r\n", 0, port_num);
+	
+	return Esp8266_Send_Cmd(cmd, "OK", ReceiveAck, 500);
+}
+
 void Esp8266_Init(void)
 {
-	if(Esp8266_Send_Cmd("AT", "AT", ReceiveAck, 300))
-		Comm1_printf("Esp8266 AT Cmd Ack. \n");
-//	HAL_Delay(10);
-	if(ESP8266_Set_Mode(STA))
-	{
-		Comm1_printf("STA Mode Set Success. \n");
-	}
+	/* 复位后返回的信息太多，实际是执行成功的，但是发送函数接收返回ACK的bug不够. */
+#if 0
+	if(Esp8266_Send_Cmd("AT+RST\r\n", "OK", ReceiveAck, 300))
+		Comm1_printf("Esp8266 Reset. \n");	
+#endif
+	
+	/* AT Test. */
+	if(Esp8266_Send_Cmd("AT\r\n", "OK", ReceiveAck, 300))
+		Comm1_printf("Esp8266 AT Cmd Test Ok. \n");
+
+	/* Set Mode. */
+	if(ESP8266_Set_Mode(AP))
+		Comm1_printf("AP Mode Set Success. \n");
+
+	/* Set AP ip. */
+	if(ESP8266_Set_AP(SERVER_AP))
+		Comm1_printf("AP Set Success : 192.168.78.2. \n");
+	
+	/* Set AP ssid, password, encrypt_mode. */
+	if(ESP8266_Build_AP(SERVER_AP_SSID, SERVER_AP_PASSWORD, SERVER_AP_ENCRYPT_TYPE))
+		Comm1_printf("AP Key Set Success. \n");
+	
+	/* Enable Multi Link. */
+	if(ESP8266_Enable_MultiLink(ENABLE))
+		Comm1_printf("Enable Multi Link. \n");
+	
+	/* Enable Server Port. */
+	if(ESP8266_Enable_Server(SERVER_PORT, SERVER_OUTTIME))
+		Comm1_printf("Enable Server Port : 8080. \n");
 }
 
 

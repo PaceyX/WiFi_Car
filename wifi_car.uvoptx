@@ -151,9 +151,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>55</LineNumber>
+          <LineNumber>107</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134220080</Address>
+          <Address>134220018</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -162,7 +162,23 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Bsp\esp8266_bsp.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\wifi_car\Bsp/esp8266_bsp.c\55</Expression>
+          <Expression>\\wifi_car\Bsp/esp8266_bsp.c\107</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>57</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134220272</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Bsp\esp8266_bsp.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\wifi_car\Bsp/esp8266_bsp.c\57</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
