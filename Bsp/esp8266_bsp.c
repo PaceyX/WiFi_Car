@@ -6,6 +6,7 @@
 #define ACK_BUF_SIZE	100
 
 uint8_t EspAckInfo[ACK_BUF_SIZE];
+char LocalIP[100] = {0};
 
 /**
 *	@brief	Send cmd to esp8266.
@@ -115,7 +116,7 @@ bool ESP8266_Enable_Server(char * port_num, char * out_time)
 	sprintf ( cmd1, "AT+CIPSERVER=%d,%s\r\n", 1, port_num );
 	sprintf ( cmd2, "AT+CIPSTO=%s\r\n", out_time );
 	
-	return Esp8266_Send_Cmd(cmd1, "OK", ReceiveAck, 500) && Esp8266_Send_Cmd(cmd2, "OK", ReceiveAck, 500);
+	return ( Esp8266_Send_Cmd(cmd1, "OK", ReceiveAck, 500) && Esp8266_Send_Cmd(cmd2, "OK", ReceiveAck, 500) );
 	
 }
 
@@ -123,13 +124,73 @@ bool ESP8266_Shutdown_Server(char * port_num)
 {
 	char cmd[120];
 	
-	sprintf (cmd, "AT+CIPSERVER=%d,%s\r\n", 0, port_num);
+	sprintf (cmd, "AT+CIPSERVER=0,%s\r\n", port_num);
 	
 	return Esp8266_Send_Cmd(cmd, "OK", ReceiveAck, 500);
 }
 
+bool ESP8266_Inquiry_ApIp(char * ap_ip, uint8_t ip_length)
+{
+	char * pCh;
+	char uc;
+	
+	if(Esp8266_Send_Cmd("AT+CIFSR\r\n", "OK", ReceiveAck, 500))
+	{
+		pCh = strstr((char *)EspAckInfo, "APIP,\"");
+		if(pCh)		pCh += 6;
+		else		return false;
+		
+		for(uc = 0; uc < ip_length; uc++)
+		{
+			ap_ip[uc] = *(pCh + uc);
+			if(ap_ip[uc] == '\"')
+			{
+				ap_ip[uc] = '\0';
+				break;
+			}
+		}
+	}
+	return true;
+}
+
+/**
+*	@brief	使能透传发送
+*	@param	none.
+*/
+bool ESP8266_PassThrough_Send(FunctionalState state)
+{
+	if(state)
+	{
+		if(!Esp8266_Send_Cmd("AT+CIPMODE=1\r\n", "OK", ReceiveAck, 500))	return false;
+		return Esp8266_Send_Cmd("AT+CIPSEND\r\n", "OK", ReceiveAck, 500);
+	}
+	else
+	{
+		HAL_Delay(1000);
+		Esp8266_Send_Cmd("+++\r\n", NULL, NoAck, 0);
+		HAL_Delay(500);
+		return true;
+	}
+}
+
+/**
+*	@brief	透传发送字符串
+*	@param	str : the send string.
+*			length : the string length.
+*/
+bool ESP8266_SendString(char * str)
+{
+	Comm2_SendData((uint8_t *)str, CalculateStringlength((uint8_t *)str));
+	return true;
+}
+
+
+
+
 void Esp8266_Init(void)
 {
+	char temp[100];
+	
 	/* 复位后返回的信息太多，实际是执行成功的，但是发送函数接收返回ACK的bug不够. */
 #if 0
 	if(Esp8266_Send_Cmd("AT+RST\r\n", "OK", ReceiveAck, 300))
@@ -146,7 +207,7 @@ void Esp8266_Init(void)
 
 	/* Set AP ip. */
 	if(ESP8266_Set_AP(SERVER_AP))
-		Comm1_printf("AP Set Success : 192.168.78.2. \n");
+		Comm1_printf("AP Set Success : 192.168.78.1. \n");
 	
 	/* Set AP ssid, password, encrypt_mode. */
 	if(ESP8266_Build_AP(SERVER_AP_SSID, SERVER_AP_PASSWORD, SERVER_AP_ENCRYPT_TYPE))
@@ -159,6 +220,22 @@ void Esp8266_Init(void)
 	/* Enable Server Port. */
 	if(ESP8266_Enable_Server(SERVER_PORT, SERVER_OUTTIME))
 		Comm1_printf("Enable Server Port : 8080. \n");
+	
+	if(ESP8266_Inquiry_ApIp(LocalIP, 20))
+	{
+		Comm1_printf("ESP8266 AP Mode Init Success. \n");
+		HAL_Delay(10);
+		
+		memset(temp, 0, 100);
+		sprintf(temp, "The Moudle WiFi SSID is : %s ,  Password : %s \n", SERVER_AP_SSID, SERVER_AP_PASSWORD);
+		Comm1_printf((char *)temp);
+		HAL_Delay(10);
+		
+		memset(temp, 0, 100);
+		sprintf(temp, "SSID : %s , IP : %s, Port : %s \n", SERVER_AP_SSID,  LocalIP, SERVER_PORT);
+		Comm1_printf((char *)temp);
+		HAL_Delay(10);
+	}
 }
 
 

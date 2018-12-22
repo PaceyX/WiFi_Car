@@ -10,9 +10,6 @@
 #include "ov9650_bsp.h"
 #include "iic_soft_bsp.h"
 
-
-uint8_t aTxBuffer[] = " ****UART_TwoBoards_ComIT****  ****UART_TwoBoards_ComIT****  ****UART_TwoBoards_ComIT**** ";
-
 void AppMainLoop(void)
 {
 	while(1)
@@ -21,13 +18,8 @@ void AppMainLoop(void)
 //		Comm2_SendToWifiTask();
 		Comm1_Task();
 		Comm2_Task();
-
-//		HAL_Delay(100);
-//		
-//		Comm1_SendData(aTxBuffer, sizeof(aTxBuffer));
-//		Comm2_SendData(aTxBuffer, sizeof(aTxBuffer));
-
-
+//		HAL_Delay(500);
+//		ESP8266_SendString("sddfdfdf");
 	}
 }
 

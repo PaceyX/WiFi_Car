@@ -92,9 +92,9 @@ u8 Comm1_SendData(u8 *data, u16 len)
 
 int fputc(int ch, FILE *f)
 {
-//	Comm1_SendData((u8 *)(&ch), 1);
-
-	return (ch);
+	while((USART1->SR&0X40)==0);//循环发送,直到发送完毕   
+	USART1->DR = (u8) ch;      
+	return ch;
 }
 
 void Comm1_printf(char * data)
