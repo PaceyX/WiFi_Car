@@ -154,34 +154,20 @@ bool ESP8266_Inquiry_ApIp(char * ap_ip, uint8_t ip_length)
 }
 
 /**
-*	@brief	使能透传发送
-*	@param	none.
-*/
-bool ESP8266_PassThrough_Send(FunctionalState state)
-{
-	if(state)
-	{
-		if(!Esp8266_Send_Cmd("AT+CIPMODE=1\r\n", "OK", ReceiveAck, 500))	return false;
-		return Esp8266_Send_Cmd("AT+CIPSEND\r\n", "OK", ReceiveAck, 500);
-	}
-	else
-	{
-		HAL_Delay(1000);
-		Esp8266_Send_Cmd("+++\r\n", NULL, NoAck, 0);
-		HAL_Delay(500);
-		return true;
-	}
-}
-
-/**
 *	@brief	透传发送字符串
 *	@param	str : the send string.
 *			length : the string length.
 */
 bool ESP8266_SendString(char * str)
 {
-	Comm2_SendData((uint8_t *)str, CalculateStringlength((uint8_t *)str));
-	return true;
+	char cStr [20];
+	
+	/*
+	此处设置要发送的连接设备，作为AP模式最大能连接5个设备，可在此全部扩展。默认只发送第一个连接的设备. 
+	*/
+	sprintf ( cStr, "AT+CIPSEND=%d,%d\r\n", 0, CalculateStringlength((uint8_t *)str) );
+	
+	return Esp8266_Send_Cmd(cStr, "> ", ReceiveAck, 500) && Esp8266_Send_Cmd(str, "SEND OK", ReceiveAck, 500);
 }
 
 
