@@ -1,6 +1,8 @@
 #include "motor_bsp.h"
 #include "tim.h"
 
+MotorParamsTypedef MotorParams[2];
+
 
 
 void Motor_Init(void)
@@ -14,4 +16,16 @@ void Motor_Init(void)
 	TIM2->CCR2 = 200;
 	TIM3->CCR3 = 0;
 	TIM3->CCR4 = 200;
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	if(GPIO_Pin == CL_1_LEFT_Pin)
+	{
+		
+	}
+	else if(GPIO_Pin == CL_2_RIGHT_Pin)
+	{
+		
+	}
 }

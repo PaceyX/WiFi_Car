@@ -596,6 +596,11 @@
               <FileType>1</FileType>
               <FilePath>.\App\Arithmetic\c_algorithm.c</FilePath>
             </File>
+            <File>
+              <FileName>pid_regulators.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\App\Arithmetic\pid_regulators.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

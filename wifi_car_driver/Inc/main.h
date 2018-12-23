@@ -89,10 +89,12 @@
 #define ECHO_B_GPIO_Port GPIOB
 #define NETLINK_Pin GPIO_PIN_13
 #define NETLINK_GPIO_Port GPIOB
-#define CL_1_Pin GPIO_PIN_14
-#define CL_1_GPIO_Port GPIOB
-#define CL_2_Pin GPIO_PIN_15
-#define CL_2_GPIO_Port GPIOB
+#define CL_1_LEFT_Pin GPIO_PIN_14
+#define CL_1_LEFT_GPIO_Port GPIOB
+#define CL_1_LEFT_EXTI_IRQn EXTI15_10_IRQn
+#define CL_2_RIGHT_Pin GPIO_PIN_15
+#define CL_2_RIGHT_GPIO_Port GPIOB
+#define CL_2_RIGHT_EXTI_IRQn EXTI15_10_IRQn
 #define DCMI_D0_Pin GPIO_PIN_6
 #define DCMI_D0_GPIO_Port GPIOC
 #define DCMI_D1_Pin GPIO_PIN_7
