@@ -656,11 +656,6 @@
               <FileType>1</FileType>
               <FilePath>.\Bsp\motor_bsp.c</FilePath>
             </File>
-            <File>
-              <FileName>motor_bsp.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Bsp\motor_bsp.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
