@@ -647,11 +647,6 @@
               <FilePath>.\Bsp\camera_bsp.c</FilePath>
             </File>
             <File>
-              <FileName>ov9650_bsp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Bsp\ov9650_bsp.c</FilePath>
-            </File>
-            <File>
               <FileName>iic_soft_bsp.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Bsp\iic_soft_bsp.c</FilePath>
@@ -660,6 +655,11 @@
               <FileName>motor_bsp.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Bsp\motor_bsp.c</FilePath>
+            </File>
+            <File>
+              <FileName>ultrasonic_bsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Bsp\ultrasonic_bsp.c</FilePath>
             </File>
           </Files>
         </Group>

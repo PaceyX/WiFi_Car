@@ -878,8 +878,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Bsp\ov9650_bsp.c</PathWithFileName>
-      <FilenameWithoutPath>ov9650_bsp.c</FilenameWithoutPath>
+      <PathWithFileName>.\Bsp\iic_soft_bsp.c</PathWithFileName>
+      <FilenameWithoutPath>iic_soft_bsp.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -890,8 +890,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Bsp\iic_soft_bsp.c</PathWithFileName>
-      <FilenameWithoutPath>iic_soft_bsp.c</FilenameWithoutPath>
+      <PathWithFileName>.\Bsp\motor_bsp.c</PathWithFileName>
+      <FilenameWithoutPath>motor_bsp.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -902,8 +902,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Bsp\motor_bsp.c</PathWithFileName>
-      <FilenameWithoutPath>motor_bsp.c</FilenameWithoutPath>
+      <PathWithFileName>.\Bsp\ultrasonic_bsp.c</PathWithFileName>
+      <FilenameWithoutPath>ultrasonic_bsp.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
