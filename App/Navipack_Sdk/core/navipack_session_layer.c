@@ -1,10 +1,10 @@
 /**
 ******************************************************************************
 * @file    navipack_session_layer.c
-* @author  Jalon
-* @date    2016.06.16
+* @author  *
+* @date    *
 * @brief   通讯协议会话层解析相关函数
-* @attention Copyright (C) 2016 Inmotion Corporation
+* @attention Copyright (C) 
 ******************************************************************************
 */
 
@@ -94,7 +94,7 @@ bool RegisterRead(NavipackComm_Type *comm, NaviPack_HeadType *head, u8 err_id, u
 	if(!ret) return false;
 	comm->txDataLen = comm->txFrame.offset;
 
-	return Navipack_TxCallback(comm->txBuffer, comm->txDataLen);
+	return Navipack_TxCallback(comm->txBuffer, comm->txDataLen, comm->commPort);
 }
 
 /**
@@ -106,7 +106,7 @@ bool RegisterRead(NavipackComm_Type *comm, NaviPack_HeadType *head, u8 err_id, u
 */
 static void RxProcessor(NavipackComm_Type *comm, NaviPack_HeadType *head, u16 len)
 {
-    if(head->deviceAddr == 0x16)
+    if(head->deviceAddr == NAVIPACK_SLAVE_ID)
     {
         if(!Navipack_CheckLength(head, len))
         {

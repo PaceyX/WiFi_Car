@@ -18,8 +18,6 @@ void AppMainLoop(void)
 //		Comm2_SendToWifiTask();
 		Comm1_Task();
 		Comm2_Task();
-		HAL_Delay(500);
-		ESP8266_SendString("sddfdfagfdgadfgadfgdadfgsdfgsdfgsdfhsdfhsdfhsdfhsdfhsdfhsdhf\n");
 	}
 }
 

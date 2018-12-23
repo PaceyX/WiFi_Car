@@ -36,7 +36,9 @@ bool Comm1_Init(UART_HandleTypeDef *huart)
     comm->txSize = sizeof(CommTxBuffer);
     comm->rxDataLen = 0;
     comm->txDataLen = 0;
-
+	
+	comm->commPort  = 1;//use usart1
+	
     Queue_Init(&TxQueue, TxQueuePool, sizeof(TxQueuePool), sizeof(TxQueuePool[0]));
     
     NaviPack_Init();

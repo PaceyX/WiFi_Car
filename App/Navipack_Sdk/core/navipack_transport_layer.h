@@ -1,10 +1,10 @@
 /**
 ******************************************************************************
 * @file    navipack_transport_layer.h
-* @author  Jalon
-* @date    2016.02.01
+* @author  *
+* @date    *
 * @brief   通讯协议解包封包等相关声明
-* @attention Copyright (C) 2016 Inmotion Corporation
+* @attention Copyright (C) 
 ******************************************************************************
 */
 #ifndef  __NAVIPACK_TRANSPORT_LAYER_H__

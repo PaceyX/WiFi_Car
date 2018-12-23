@@ -1,10 +1,10 @@
 /**
 ******************************************************************************
 * @file    navipack_transport_layer.c
-* @author  Jalon
-* @date    2016.02.01
+* @author  *
+* @date    *
 * @brief   通讯协议传输层解包封包等相关函数
-* @attention Copyright (C) 2016 Inmotion Corporation
+* @attention Copyright (C) 
 ******************************************************************************
 */
 

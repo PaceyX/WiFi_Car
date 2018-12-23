@@ -8,10 +8,6 @@
 #include "usart_bsp.h"
 
 
-/* The user function used by esp8266 driver. */
-#define esp8266_cmd_send()
-
-#define CMD_WAITTIME	50
 
 #define SERVER_AP						"192.168.78.1"
 #define SERVER_AP_SSID         			"WiFi_Car"   
@@ -41,7 +37,7 @@ typedef enum{
 
 void Esp8266_Init(void);
 bool Esp8266_Send_Cmd(char * cmd, char * reply1, AckType cmd_type, uint32_t waittime);
-bool ESP8266_SendString(char * str);
+bool ESP8266_SendString(char * str,  u16 len);
 
 #endif
 

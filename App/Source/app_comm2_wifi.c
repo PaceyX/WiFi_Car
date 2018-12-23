@@ -34,6 +34,8 @@ bool Comm2_Init(UART_HandleTypeDef *huart)
     comm->rxDataLen = 0;
     comm->txDataLen = 0;
 
+	comm->commPort  = 2;//use usart1
+	
     Queue_Init(&TxQueue, TxQueuePool, sizeof(TxQueuePool), sizeof(TxQueuePool[0]));
     
     NaviPack_Init();
@@ -104,49 +106,49 @@ bool Comm2_PostTxEvent(NaviPack_HeadType *head)
 */
 void Comm2_SendToWifiTask(void)
 {
-    static NaviPack_HeadType fast_head =
-    {
-        NAVIPACK_SLAVE_ID,
-        MCU_FAST_STATUS_REG,
-        0,
-        sizeof(NaviPack_FastStatusType),
-    };
-    
-    static NaviPack_HeadType slow_head =
-    {
-        NAVIPACK_SLAVE_ID,
-        MCU_SLOW_STATUS_REG,
-        16,
-        sizeof(NaviPack_SlowStatusType) - 16 ,
-    };
-	
-    static int32_t startup_boost_dly = 0;
-    static int32_t count_num = 0;
-	static uint8_t count_debug = 0;
-	
-    if (RunFlag.ms1)
-    {
-		if (count_num == 12)
-		{
-			Comm2_PostTxEvent(&fast_head);
-			count_num = 0;
-		}
-		else
-		{
-			count_num++;
-		}
-		
-		if(count_debug >= 100)//send debug data every 100ms
-		{
-			count_debug  = 0;
-			//Comm2_PostTxEvent(&head_debug_10hz);
-		}
-		count_debug++;
-    }
-    
-    if(RunFlag.ms20 && (startup_boost_dly >= 3000))
-    {
-         Comm2_PostTxEvent(&slow_head);
-    }
+//    static NaviPack_HeadType fast_head =
+//    {
+//        NAVIPACK_SLAVE_ID,
+//        MCU_FAST_STATUS_REG,
+//        0,
+//        sizeof(NaviPack_FastStatusType),
+//    };
+//    
+//    static NaviPack_HeadType slow_head =
+//    {
+//        NAVIPACK_SLAVE_ID,
+//        MCU_SLOW_STATUS_REG,
+//        16,
+//        sizeof(NaviPack_SlowStatusType) - 16 ,
+//    };
+//	
+//    static int32_t startup_boost_dly = 0;
+//    static int32_t count_num = 0;
+//	static uint8_t count_debug = 0;
+//	
+//    if (RunFlag.ms1)
+//    {
+//		if (count_num == 12)
+//		{
+//			Comm2_PostTxEvent(&fast_head);
+//			count_num = 0;
+//		}
+//		else
+//		{
+//			count_num++;
+//		}
+//		
+//		if(count_debug >= 100)//send debug data every 100ms
+//		{
+//			count_debug  = 0;
+//			//Comm2_PostTxEvent(&head_debug_10hz);
+//		}
+//		count_debug++;
+//    }
+//    
+//    if(RunFlag.ms20 && (startup_boost_dly >= 3000))
+//    {
+//         Comm2_PostTxEvent(&slow_head);
+//    }
 }
 

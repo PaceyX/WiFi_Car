@@ -1,11 +1,11 @@
 /**
 ******************************************************************************
 * @file    navipack_api.c
-* @author  Jalon
-* @date    2016.07.01
+* @author  *
+* @date    *
 * @brief   通讯协议接口，该文件在移植过程中需要根据实际情况更改，
            部分函数需要用户实现
-* @attention Copyright (C) 2016 Inmotion Corporation
+* @attention Copyright (C)
 ******************************************************************************
 */
 
@@ -22,6 +22,9 @@
 
 // 引入需要的头文件
 #include "string.h"
+#include "app_comm2_wifi.h"
+#include "app_comm1.h"
+#include "esp8266_bsp.h"
 
 
 /**
@@ -55,9 +58,18 @@ bool Navipack_RxCallback(NavipackComm_Type *comm, NaviPack_HeadType *head)
 {
     switch(head->functionCode)
     {
-		case 0:
-			
-		break;
+		case MCU_CONTROL_READ_REG:
+			Comm2_PostTxEvent(head);
+			break;
+		case MCU_CONTROL_WRITE_REG:
+			if(!RegisterWrite(comm , head, (u8*)&comm->control, sizeof(comm->control), 0))		return false;
+			break;
+		case MCU_PARAM_READ_REG:
+			Comm2_PostTxEvent(head);
+			break;
+		case MCU_PARAM_WRITE_REG:
+			if(!RegisterWrite(comm , head, (u8*)&comm->paramter, sizeof(comm->paramter), 0))		return false;
+			break;
 	}
     return true;
 }
@@ -74,6 +86,18 @@ bool NaviPack_TxProcessor(NavipackComm_Type *comm, NaviPack_HeadType *head)
     {
         switch(head->functionCode)
         {
+			case MCU_CONTROL_READ_REG:
+				return RegisterRead(comm, head, 0, (u8*)&comm->control, sizeof(comm->control), 0);
+			case MCU_STATUS_REG:
+				return RegisterRead(comm, head, 0, (u8*)&comm->status, sizeof(comm->status), 0);
+			case MCU_SENSOR_REG:
+				return RegisterRead(comm, head, 0, (u8*)&comm->sensor, sizeof(comm->sensor), 0);
+			case MCU_CAMERA_REG:
+				return RegisterRead(comm, head, 0, (u8*)&comm->camera, sizeof(comm->camera), 0);
+			case MCU_MAP_RAG:
+				return RegisterRead(comm, head, 0, (u8*)&comm->map, sizeof(comm->map), 0);
+			case MCU_PARAM_READ_REG:
+				return RegisterRead(comm, head, 0, (u8*)&comm->paramter, sizeof(comm->paramter), 0);
 		}
 	}
     return false;
@@ -85,11 +109,14 @@ bool NaviPack_TxProcessor(NavipackComm_Type *comm, NaviPack_HeadType *head)
 * @param  len  : 数据长度
 * @retval 是否成功发送
 */
-bool Navipack_TxCallback(u8* pbuf, u16 len)
+bool Navipack_TxCallback(u8* pbuf, u16 len, u8 commport)
 {
-    // 实际数据发送
-//    return Comm_SendData(pbuf, len);
-	return true;
+	if(commport == 1)	//usart1
+		return Comm1_SendData(pbuf, len);
+	else if(commport == 2)		//usart2
+		return ESP8266_SendString( (char *)pbuf, len);
+	else
+		return false;
 }
 
 /**

@@ -1,10 +1,10 @@
 /**
 ******************************************************************************
 * @file    navipack_session_layer.h
-* @author  Jalon
-* @date    2016.06.16
+* @author  *
+* @date    *
 * @brief   通讯协议会话层解析相关声明
-* @attention Copyright (C) 2016 Inmotion Corporation
+* @attention Copyright (C)
 ******************************************************************************
 */
 #ifndef __NAVIPACK_SESSION_LAYER_H__
@@ -37,6 +37,16 @@ typedef struct
     u16 txDataLen;
     TransportFrame_Type rxFrame;
     TransportFrame_Type txFrame;
+	
+	u8  commPort;   //choice which usart
+	
+	NaviPack_CtrlType control;
+	NaviPack_StatusType status;
+	NaviPack_SensorType sensor;
+	NaviPack_CameraType camera;
+	NaviPack_MapDataType map;
+	NaviPack_Paramter paramter;
+	
 	u8  Cmd_id[2];  //CleanPack will attach Cmd_id to Most instructions, you need to send it back to CleanPack
 }NavipackComm_Type;
 
@@ -46,7 +56,7 @@ bool RegisterRead(NavipackComm_Type *comm, NaviPack_HeadType *head, u8 err_id, u
 bool Navipack_TransportUnpacking(NavipackComm_Type *comm, u8 data);
 bool Navipack_TransportPacking(NavipackComm_Type *comm, u8 *in_buf, u16 len, u8 pack_flag);
 
-bool Navipack_TxCallback(u8* pbuf, u16 len);
+bool Navipack_TxCallback(u8* pbuf, u16 len, u8 commport);
 bool Navipack_RxCallback(NavipackComm_Type *comm, NaviPack_HeadType *head);
 
 /**

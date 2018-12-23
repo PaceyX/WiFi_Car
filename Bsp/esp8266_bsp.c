@@ -158,7 +158,7 @@ bool ESP8266_Inquiry_ApIp(char * ap_ip, uint8_t ip_length)
 *	@param	str : the send string.
 *			length : the string length.
 */
-bool ESP8266_SendString(char * str)
+bool ESP8266_SendString(char * str,  u16 len)
 {
 	char cStr [20];
 	

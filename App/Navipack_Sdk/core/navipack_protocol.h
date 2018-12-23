@@ -1,10 +1,10 @@
 /**
 ******************************************************************************
 * @file    navipack_protocol.h
-* @author  Jalon
-* @date    2016.06.16
+* @author  *
+* @date    *
 * @brief   通讯协议会话层相关数据结构定义
-* @attention Copyright (C) 2016 Inmotion Corporation
+* @attention Copyright (C) 
 ******************************************************************************
 */
 #ifndef __NAVIPACK_PROTOCOL_H__
@@ -34,67 +34,90 @@ typedef struct
     s32 Wacc;
     s32 stepS;
     s16 stepPhi;
+	u32 switchControl;
+	u8 cec_mode;
+	u32 led;
 }ChassisControlRegister;
 
 typedef struct
 {
-	u32 systick_ms;
 	s32 angularPos;
 	s32 leftEncoderPos;      ///<当前左边里程计的积分位置
 	s32 rightEncoderPos;     ///<当前右边里程计的积分位置
 	s32 lineVelocity;
 	s32 angularVelocity;
+	u8 chargeStatus;
+	u8 batteryStatus;
+	u16 errorState;
+	u32 systick_ms;
 	s16 skid_error;
+	u8 motion_status;
+	u8 motor_control_status;
+	s32 l_speed;
+	s32 r_speed;
+	s32 lpwm;
+	s32 rpwm;
+	
+}ChassisStatusRegister;
+
+typedef struct 
+{
+	u16 ultraFront;
+	u16 ultraBack;
+	u16 ultraLeft;
+	u16 ultraRight;
+	u16 ultrasonicRese[4];
+	s16 temperature;
 	s16 gyro_pitch;
 	s16 gyro_roll;
 	s16 gyro_yaw;
 	s16 accel_pitch;
 	s16 accel_roll;
 	s16 accel_vert;
-}FastChassisStatusRegister;
+}ChassisSensorRegister;
 
-typedef struct     //
+typedef struct 
 {
-	u16 ultrasonic[4];
-	u32 systick_ms;
-	u8 collisionSensor;
-	u8 dropSensor;
-	u16 irSensor;
-	u16 battery_voltage;
-	u16 errorState;
-	s16 temperature;
-	
-	u8 chargeStatus;
-	u8 batteryStatus;
-	u8 real_battery_level;
-	u8 motor_control_status;    // mcu 内部状态机值
-	u8 motion_status;           // mcu 内部状态机值
-	
-	s32 l_speed;
-	s32 r_speed;
-	s32 lpwm;
-	s32 rpwm;
-	u32 feedbackStatus;
+	u8 cameraData[512];
+}ChassisCameraRegister;
 
-	u32 sensorSwitchStatus;
-	
-	s32 debug_info1;
-	s32 debug_info2;
-}SlowChassisStatusRegister;
+typedef struct
+{
+	s8 coor_x[240];
+	s8 coor_y[240];
+	s16 angular_yaw;
+	s8 position_x;
+	s8 position_y;
+}ChassisMapRgister;
+
+typedef struct
+{
+	u16 wheel_p;
+	u16 wheel_i;
+	u16 wheel_d;
+}ChassisParamterRegister;
+
 
 typedef NacipackProtocolHeader NaviPack_HeadType;
 typedef ChassisControlRegister NaviPack_CtrlType;
-typedef FastChassisStatusRegister NaviPack_FastStatusType;
-typedef SlowChassisStatusRegister NaviPack_SlowStatusType;
+typedef ChassisStatusRegister  NaviPack_StatusType;
+typedef ChassisStatusRegister  NaviPack_SensorType;
+typedef ChassisCameraRegister  NaviPack_CameraType;
+typedef ChassisMapRgister	   NaviPack_MapDataType;
+typedef ChassisParamterRegister NaviPack_Paramter;
+
 
 #define NAVIPACK_SLAVE_ID 	0x12
 
 /* Function Code - ID. */
-#define MCU_CONTROL_REG         0x01
-#define MCU_FAST_STATUS_REG	 	0x02
-#define MCU_SLOW_STATUS_REG		0x03
-//..
-#define MCU_SEND_DEBUG_DATA		0x05
+#define MCU_CONTROL_READ_REG    0x01
+#define MCU_CONTROL_WRITE_REG	0x02
+#define MCU_STATUS_REG	 		0x03
+#define MCU_SENSOR_REG			0x04
+#define MCU_CAMERA_REG			0x05
+#define MCU_MAP_RAG				0x06
+#define MCU_PARAM_READ_REG		0x07
+#define MCU_PARAM_WRITE_REG		0x08
 
 #endif
 
