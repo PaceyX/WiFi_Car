@@ -18,15 +18,15 @@ void AppMainLoop(void)
 	{
 		RunFlagHandleTask();
 //		Comm2_SendToWifiTask();
-//		Comm1_Task();
-//		Comm2_Task();
+		Comm1_Task();
+		Comm2_Task();
 	}
 }
 
 
 void UserInit(void)
 {
-//	RunFlagInit();
+	RunFlagInit();
 	HAL_GPIO_WritePin(GPIOB, NETLINK_Pin, GPIO_PIN_SET);
 	IIC_GPIO_Init();
 	Comm1_Init(&huart1);

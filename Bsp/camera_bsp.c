@@ -11,15 +11,6 @@ void Bsp_Camera_Init(uint32_t resolution)
 
 
 /**
-  * @brief  Manages error callback by re-initializing I2C.
-  * @param  Addr: I2C Address
-  */
-static void I2Cx_Error(uint8_t Addr)
-{
-	
-}
-
-/**
   * @brief  Camera writes single data.
   * @param  Addr: I2C address
   * @param  Reg: Register address 

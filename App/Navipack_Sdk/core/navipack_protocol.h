@@ -98,6 +98,10 @@ typedef struct
 }ChassisParamterRegister;
 
 
+#pragma pack(pop)
+
+
+
 typedef NacipackProtocolHeader NaviPack_HeadType;
 typedef ChassisControlRegister NaviPack_CtrlType;
 typedef ChassisStatusRegister  NaviPack_StatusType;
@@ -118,6 +122,8 @@ typedef ChassisParamterRegister NaviPack_Paramter;
 #define MCU_MAP_RAG				0x06
 #define MCU_PARAM_READ_REG		0x07
 #define MCU_PARAM_WRITE_REG		0x08
+
+
 
 #endif
 
