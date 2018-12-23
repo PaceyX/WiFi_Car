@@ -9,6 +9,8 @@
 #include "esp8266_bsp.h"
 #include "ov9650_bsp.h"
 #include "iic_soft_bsp.h"
+#include "motor_bsp.h"
+
 
 void AppMainLoop(void)
 {
@@ -16,15 +18,15 @@ void AppMainLoop(void)
 	{
 		RunFlagHandleTask();
 //		Comm2_SendToWifiTask();
-		Comm1_Task();
-		Comm2_Task();
+//		Comm1_Task();
+//		Comm2_Task();
 	}
 }
 
 
 void UserInit(void)
 {
-	RunFlagInit();
+//	RunFlagInit();
 	HAL_GPIO_WritePin(GPIOB, NETLINK_Pin, GPIO_PIN_SET);
 	IIC_GPIO_Init();
 	Comm1_Init(&huart1);
@@ -32,5 +34,5 @@ void UserInit(void)
 	
 	HAL_Delay(100);
 	Esp8266_Init();
-
+	Motor_Init();
 }

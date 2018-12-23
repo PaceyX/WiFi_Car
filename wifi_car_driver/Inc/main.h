@@ -49,6 +49,9 @@
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
+#define WHEEL_FREQUENCY 14000
+#define WHEEL_PWM_PERIOD 1000
+#define APB1_CLK_TIMER 84000000
 
 #define FP_Reset_Pin GPIO_PIN_13
 #define FP_Reset_GPIO_Port GPIOC
