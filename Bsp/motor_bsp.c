@@ -18,7 +18,7 @@ void Motor_Init(void)
 	TIM3->CCR4 = 200;
 }
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+void WheelCalSpeed_IRQHandler(uint16_t GPIO_Pin)
 {
 	if(GPIO_Pin == CL_1_LEFT_Pin)
 	{
@@ -29,3 +29,5 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		
 	}
 }
+
+

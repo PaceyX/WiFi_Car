@@ -10,6 +10,9 @@
 #include "ov9650_bsp.h"
 #include "iic_soft_bsp.h"
 #include "motor_bsp.h"
+#include "app_task.h"
+#include "ultrasonic_bsp.h"
+
 
 
 void AppMainLoop(void)
@@ -20,6 +23,7 @@ void AppMainLoop(void)
 //		Comm2_SendToWifiTask();
 		Comm1_Task();
 		Comm2_Task();
+		Sample_Task();
 	}
 }
 
@@ -35,4 +39,11 @@ void UserInit(void)
 	HAL_Delay(100);
 	Esp8266_Init();
 	Motor_Init();
+}
+
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	WheelCalSpeed_IRQHandler(GPIO_Pin);
+	UltraCalDistance_IRQHandler(GPIO_Pin);
 }

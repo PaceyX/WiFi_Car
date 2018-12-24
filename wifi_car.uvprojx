@@ -379,6 +379,26 @@
       </TargetOption>
       <Groups>
         <Group>
+          <GroupName>Drivers/CMSIS</GroupName>
+          <Files>
+            <File>
+              <FileName>system_stm32f4xx.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\wifi_car_driver\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\wifi_car_driver\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f446xx.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\wifi_car_driver\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f446xx.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Application/MDK-ARM</GroupName>
           <Files>
             <File>
@@ -544,26 +564,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Drivers/CMSIS</GroupName>
-          <Files>
-            <File>
-              <FileName>system_stm32f4xx.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\wifi_car_driver\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f4xx.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\wifi_car_driver\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f446xx.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\wifi_car_driver\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f446xx.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>NavipackSDK</GroupName>
           <Files>
             <File>
@@ -625,6 +625,16 @@
               <FileName>app_comm1.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\App\Source\app_comm1.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_motion.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\App\Source\app_motion.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\App\Source\app_task.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -32,7 +32,7 @@ typedef struct MotorsParamsType
 } MotorParamsTypedef;
 
 void Motor_Init(void);
-
+void WheelCalSpeed_IRQHandler(uint16_t GPIO_Pin);
 
 
 #endif
