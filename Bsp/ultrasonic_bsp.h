@@ -8,14 +8,15 @@
 
 
 typedef enum {
-	ULTRA_FRONT,
-	ULTRA_BACK,
-	ULTRA_LEFT,
-	ULTRA_RIGHT,
-	ULTRA_AMOUNT
+	ULTRA_FRONT = 0,
+	ULTRA_BACK = 1,
+	ULTRA_LEFT = 2,
+	ULTRA_RIGHT = 3,
+	ULTRA_AMOUNT = 4
 } UltraTypeDef;
 
-void UltraCalDistance_IRQHandler(uint16_t GPIO_Pin);
+void UltraDistanceSample(void);
+void UltraCalDistance_IRQHandler(void);
 
 
 

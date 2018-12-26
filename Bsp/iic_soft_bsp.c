@@ -30,7 +30,7 @@ void IIC_GPIO_Init(void)
 *	@brief	for circular delay function.
 *	@note	STM32F446 180M Frequency adjust.
 */
-void Delay_us(uint32_t time)
+static void Delay_us(uint32_t time)
 {
 	uint8_t i;
 	
