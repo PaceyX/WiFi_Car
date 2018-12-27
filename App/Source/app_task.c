@@ -28,6 +28,6 @@ void Sample_Task(void)
 	
 	if(RunFlag.ms1000)
 	{
-		UltraDistanceSample();
+
 	}
 }

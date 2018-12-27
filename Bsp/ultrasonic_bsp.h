@@ -5,8 +5,6 @@
 #include "mcu_lib.h"
 
 
-
-
 typedef enum {
 	ULTRA_FRONT = 0,
 	ULTRA_BACK = 1,
@@ -15,11 +13,7 @@ typedef enum {
 	ULTRA_AMOUNT = 4
 } UltraTypeDef;
 
-void UltraDistanceSample(void);
+void BSP_Ultrasonic_Init(void);
 void UltraCalDistance_IRQHandler(void);
-
-
-
-
 
 #endif

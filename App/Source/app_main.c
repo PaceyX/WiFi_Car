@@ -39,6 +39,7 @@ void UserInit(void)
 	HAL_TIM_Base_Start_IT(&htim6);
 	Esp8266_Init();
 	Motor_Init();
+	BSP_Ultrasonic_Init();
 	
 	HAL_GPIO_WritePin(GPIOB, NETLINK_Pin, GPIO_PIN_SET);
 }
