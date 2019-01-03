@@ -2,31 +2,13 @@
 #include "tim.h"
 
 
-typedef struct MotorsParamsType
+
+
+MotorParamsTypedef MotorParams[2] = 
 {
-	__IO u32 *PWM_CHA;
-	__IO u32 *PWM_CHB;
-    u8 encoder_dir;             			/* 当前编码器方向. */
-    u8 motor_dir;							/* 当前电机的转向，通过IMU的加速度来判断. */
-	u8 motor_num;							/* 当前电机数量. */
-	u8 motor_dir_real;						/* 电机真实的控制方向. */
-    s16 velocity_factor;					/* 里程计校准因子. */
-	
-//	s32 present_speed;						/* 当前车子速度. */
-    s32 acccumulated_distance;				/* 当前最新一次的里程计距离. */
-    s32 accumulated_distance_remainder;		/* 之前累计的里程计距离. */
-	
-	s32 velocity;							/* 当前车子速度. */
-	s32 last_motor_output;					/* 上一次的电机PWM开环输出. */
-
-	// Speed loop
-    s32 targetVelocity;						/* 闭环控制的目标线速度. */
-    s32 cur_pwm_out;						/* 闭环控制的当前PWM输出. */
-	s32 last_pid_pwm_output;				/* 上一次的电机PWM闭环输出. */
-    PIDObjTyp velocityPID;					/* 闭环控制的电机PID参数. */
-} MotorParamsTypedef;
-
-MotorParamsTypedef MotorParams[2];
+	{&(TIM2->CCR1), &(TIM2->CCR2), 0},		/* Left_Wheel. */
+	{&(TIM3->CCR3), &(TIM3->CCR4), 1}		/* Right_Wheel. */
+};
 
 
 typedef struct MotorSpeedTypedef
@@ -60,4 +42,114 @@ void WheelCalSpeed_IRQHandler(uint16_t GPIO_Pin)
 	}
 }
 
+void Motor_Output(MotorParamsTypedef * pm, s32 out)
+{
+	s16 hTimePhA = 0;
+	
+	if(out > 0)		/* 正转 */
+	{
+		hTimePhA = out;
+	}
+	else if(out < 0)	/* 反转 */
+	{
+		hTimePhA = -out;
+	}
+	else			/* stop */
+	{
+		hTimePhA = 0;
+	}
+	
+	if(hTimePhA > MAX_PWM)
+	{
+		hTimePhA = MAX_PWM;
+	}
+	
+	if(hTimePhA < MIN_PWM)
+	{
+		hTimePhA = MIN_PWM;
+	}
+	
+	pm->last_motor_output = out > 0 ? hTimePhA : -hTimePhA;
+	
+	if(pm->motor_num == 0)		/* left. */
+	{
+		if(out > 0)
+		{
+			*pm->PWM_CHA = 1000;
+			*pm->PWM_CHB = 0;
+		}
+		else if(out < 0)
+		{
+			*pm->PWM_CHA = 0;
+			*pm->PWM_CHB = 1000;
+		}
+		else
+		{
+			*pm->PWM_CHA = 0;
+			*pm->PWM_CHB = 0;
+		}
+	}
+	
+	if(pm->motor_num == 1)		/* right. */
+	{
+		if(out > 0)
+		{
+			*pm->PWM_CHA = 0;
+			*pm->PWM_CHB = 1000;
+		}
+		else if(out < 0)
+		{
+			*pm->PWM_CHA = 1000;
+			*pm->PWM_CHB = 0;
+		}
+		else
+		{
+			*pm->PWM_CHA = 0;
+			*pm->PWM_CHB = 0;
+		}
+	}
+}
 
+int32_t AccCalc(int32_t cur, int32_t aim, AccCtrlType *acc)
+{
+    int32_t step, dp;
+
+    dp = (cur - aim);
+    step = acc->acc + acc->rem;
+    cur = 1000 * cur + step * (dp > 0 ? -1 : 1);
+    acc->rem = abs(cur % 1000);
+    cur = abs(dp) * 1000 > step ? (cur / 1000) : aim;
+    return cur;
+}
+
+int8_t BSP_WHEEL_MOTOR_PWM_Out(uint8_t idx, int32_t out, AccCtrlType *pacc)
+{
+    if(idx >= MAX_MOTOR_NUM)
+    {
+        return -1;
+    }
+
+    if(pacc == NULL)
+    {
+        Motor_Output(&MotorParams[idx], out);
+    }
+    else
+    {
+        Motor_Output(&MotorParams[idx], AccCalc(MotorParams[idx].last_motor_output, out, pacc));
+    }
+
+    return 0;
+}
+
+void BSP_WHEEL_MOTOR_MotorFreeStop(void)
+{
+	static AccCtrlType stop_acc[2] = { { 1000000, 0 }, { 1000000, 0 } };
+    Motor_Output(&MotorParams[0], AccCalc(MotorParams[0].last_motor_output, 0, &stop_acc[0]));
+    Motor_Output(&MotorParams[1], AccCalc(MotorParams[1].last_motor_output, 0, &stop_acc[1]));
+}
+
+void BSP_WHEEL_MOTOR_MotorBreakStop(void)
+{
+    Motor_Output(&MotorParams[0], 0);
+    Motor_Output(&MotorParams[1], 0);
+}

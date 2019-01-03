@@ -7,9 +7,31 @@
 
 
 
+typedef enum{
+	MC_FREE,		/* slow stop. */
+	MC_BREAK,		/* stop */
+	MC_PWM,			/* open */
+	MC_SPEED,		/* loop */
+}MotorCtrlModeType;
 
+typedef struct
+{
+	MotorCtrlModeType ctrl_mode;
+	int32_t target_v;
+	int32_t target_w;
+	int32_t cur_v;
+	int32_t cur_w;
+	int32_t lpwm;
+	int32_t rpwm;
+}MotorControlType;
 
-
+typedef enum{
+	MS_IDLE,
+	MS_STEP,
+	MS_SPEED_LOOP,
+	MS_SPEED_OPEN,
+	MS_TEST,
+}MotionStatus_Type;
 
 
 #endif
