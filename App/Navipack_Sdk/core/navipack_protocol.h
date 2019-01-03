@@ -78,7 +78,7 @@ typedef struct
 
 typedef struct 
 {
-	u8 cameraData[512];
+	u8 cameraData[5 * 1024];
 }ChassisCameraRegister;
 
 typedef struct
