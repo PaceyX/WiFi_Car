@@ -30,15 +30,16 @@ void Motor_Init(void)
 	TIM3->CCR4 = 0;
 }
 
+uint8_t cnt1,cnt2;
 void WheelCalSpeed_IRQHandler(uint16_t GPIO_Pin)
 {
 	if(GPIO_Pin == CL_1_LEFT_Pin)
 	{
-		
+		cnt1++;
 	}
 	else if(GPIO_Pin == CL_2_RIGHT_Pin)
 	{
-		
+		cnt2++;
 	}
 }
 
@@ -75,18 +76,18 @@ void Motor_Output(MotorParamsTypedef * pm, s32 out)
 	{
 		if(out > 0)
 		{
-			*pm->PWM_CHA = 1000;
-			*pm->PWM_CHB = 0;
-		}
-		else if(out < 0)
-		{
 			*pm->PWM_CHA = 0;
 			*pm->PWM_CHB = 1000;
 		}
+		else if(out < 0)
+		{
+			*pm->PWM_CHA = 1000;
+			*pm->PWM_CHB = 0;
+		}
 		else
 		{
-			*pm->PWM_CHA = 0;
-			*pm->PWM_CHB = 0;
+			*pm->PWM_CHA = 1000;
+			*pm->PWM_CHB = 1000;
 		}
 	}
 	
@@ -94,18 +95,18 @@ void Motor_Output(MotorParamsTypedef * pm, s32 out)
 	{
 		if(out > 0)
 		{
-			*pm->PWM_CHA = 0;
-			*pm->PWM_CHB = 1000;
-		}
-		else if(out < 0)
-		{
 			*pm->PWM_CHA = 1000;
 			*pm->PWM_CHB = 0;
 		}
-		else
+		else if(out < 0)
 		{
 			*pm->PWM_CHA = 0;
-			*pm->PWM_CHB = 0;
+			*pm->PWM_CHB = 1000;
+		}
+		else
+		{
+			*pm->PWM_CHA = 1000;
+			*pm->PWM_CHB = 1000;
 		}
 	}
 }

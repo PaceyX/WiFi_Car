@@ -52,7 +52,8 @@ void MotionCtrlTask(void)
 			
 			break;
 		case MS_SPEED_OPEN:
-			
+			MotoCtrl.lpwm = 0;
+			MotoCtrl.rpwm = 0;
 			MotoCtrl.ctrl_mode = MC_PWM;
 			break;
 		case MS_TEST:

@@ -69,11 +69,11 @@ bool ESP8266_Set_Mode(ModeTypeDef mode)
 	switch ( mode )
 	{
 		case STA:
-			return Esp8266_Send_Cmd( "AT+CWMODE=1\r\n", "OK", ReceiveAck, 2500 ); 
+			return Esp8266_Send_Cmd( "AT+CWMODE=1\r\n", "OK", ReceiveAck, 200 ); 
 		case AP:
-		  return Esp8266_Send_Cmd( "AT+CWMODE=2\r\n", "OK", ReceiveAck, 2500 ); 
+		  return Esp8266_Send_Cmd( "AT+CWMODE=2\r\n", "OK", ReceiveAck, 200 ); 
 		case STA_AP:
-		  return Esp8266_Send_Cmd( "AT+CWMODE=3\r\n", "OK", ReceiveAck, 2500 ); 
+		  return Esp8266_Send_Cmd( "AT+CWMODE=3\r\n", "OK", ReceiveAck, 200 ); 
 		default:
 		  return false;
 	}
@@ -85,7 +85,7 @@ bool ESP8266_Set_AP(char * ip)
 	
 	sprintf(ip_cmd, "AT+CIPAP=\"%s\"\r\n", ip);
 	
-	return Esp8266_Send_Cmd(ip_cmd, "OK", ReceiveAck, 5000);
+	return Esp8266_Send_Cmd(ip_cmd, "OK", ReceiveAck, 200);
 }
 
 /**
@@ -97,7 +97,7 @@ bool ESP8266_Build_AP(char * ssid, char * password, ApEncryptTypeDef encrypt_mod
 	
 	sprintf (cmd, "AT+CWSAP=\"%s\",\"%s\",1,%d\r\n", ssid, password, encrypt_mode);
 	
-	return Esp8266_Send_Cmd(cmd, "OK", ReceiveAck, 1000);
+	return Esp8266_Send_Cmd(cmd, "OK", ReceiveAck, 200);
 }
 
 bool ESP8266_Enable_MultiLink(FunctionalState sw)
@@ -106,7 +106,7 @@ bool ESP8266_Enable_MultiLink(FunctionalState sw)
 	
 	sprintf(cmd, "AT+CIPMUX=%d\r\n", ( sw ? 1 : 0 ));
 	
-	return Esp8266_Send_Cmd(cmd, "OK", ReceiveAck, 500 );
+	return Esp8266_Send_Cmd(cmd, "OK", ReceiveAck, 200 );
 }
 
 bool ESP8266_Enable_Server(char * port_num, char * out_time)
@@ -116,7 +116,7 @@ bool ESP8266_Enable_Server(char * port_num, char * out_time)
 	sprintf ( cmd1, "AT+CIPSERVER=%d,%s\r\n", 1, port_num );
 	sprintf ( cmd2, "AT+CIPSTO=%s\r\n", out_time );
 	
-	return ( Esp8266_Send_Cmd(cmd1, "OK", ReceiveAck, 500) && Esp8266_Send_Cmd(cmd2, "OK", ReceiveAck, 500) );
+	return ( Esp8266_Send_Cmd(cmd1, "OK", ReceiveAck, 200) && Esp8266_Send_Cmd(cmd2, "OK", ReceiveAck, 200) );
 	
 }
 
@@ -126,7 +126,7 @@ bool ESP8266_Shutdown_Server(char * port_num)
 	
 	sprintf (cmd, "AT+CIPSERVER=0,%s\r\n", port_num);
 	
-	return Esp8266_Send_Cmd(cmd, "OK", ReceiveAck, 500);
+	return Esp8266_Send_Cmd(cmd, "OK", ReceiveAck, 200);
 }
 
 bool ESP8266_Inquiry_ApIp(char * ap_ip, uint8_t ip_length)
@@ -134,7 +134,7 @@ bool ESP8266_Inquiry_ApIp(char * ap_ip, uint8_t ip_length)
 	char * pCh;
 	char uc;
 	
-	if(Esp8266_Send_Cmd("AT+CIFSR\r\n", "OK", ReceiveAck, 500))
+	if(Esp8266_Send_Cmd("AT+CIFSR\r\n", "OK", ReceiveAck, 200))
 	{
 		pCh = strstr((char *)EspAckInfo, "APIP,\"");
 		if(pCh)		pCh += 6;
@@ -167,7 +167,7 @@ bool ESP8266_SendString(char * str,  u16 len)
 	*/
 	sprintf ( cStr, "AT+CIPSEND=%d,%d\r\n", 0, CalculateStringlength((uint8_t *)str) );
 	
-	return Esp8266_Send_Cmd(cStr, "> ", ReceiveAck, 500) && Esp8266_Send_Cmd(str, "SEND OK", ReceiveAck, 500);
+	return Esp8266_Send_Cmd(cStr, "> ", ReceiveAck, 200) && Esp8266_Send_Cmd(str, "SEND OK", ReceiveAck, 200);
 }
 
 
@@ -179,12 +179,12 @@ void Esp8266_Init(void)
 	
 	/* 复位后返回的信息太多，实际是执行成功的，但是发送函数接收返回ACK的bug不够. */
 #if 0
-	if(Esp8266_Send_Cmd("AT+RST\r\n", "OK", ReceiveAck, 300))
+	if(Esp8266_Send_Cmd("AT+RST\r\n", "OK", ReceiveAck, 200))
 		Comm1_printf("Esp8266 Reset. \n");	
 #endif
 	
 	/* AT Test. */
-	if(Esp8266_Send_Cmd("AT\r\n", "OK", ReceiveAck, 300))
+	if(Esp8266_Send_Cmd("AT\r\n", "OK", ReceiveAck, 200))
 		Comm1_printf("Esp8266 AT Cmd Test Ok. \n");
 
 	/* Set Mode. */

@@ -14,6 +14,7 @@
 #include "motor_bsp.h"
 #include "app_task.h"
 #include "ultrasonic_bsp.h"
+#include "app_motion.h"
 
 
 
@@ -26,6 +27,7 @@ void AppMainLoop(void)
 		Comm1_Task();
 		Comm2_Task();
 		Sample_Task();
+		MotionCtrlTask();
 	}
 }
 

@@ -34,4 +34,7 @@ typedef enum{
 }MotionStatus_Type;
 
 
+
+void MotionCtrlTask(void);
+
 #endif
