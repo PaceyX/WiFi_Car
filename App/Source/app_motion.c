@@ -1,11 +1,14 @@
 #include "app_motion.h"
 #include "motor_bsp.h"
+#include "app_tim.h"
+#include "app_comm2_wifi.h"
+
 
 
 
 MotorControlType MotoCtrl;
-MotionStatus_Type CurrentMotionStatus = MS_IDLE, NextMotionStatus = MS_IDLE;
-
+MotionStatus_Type LastMotionStatus = MS_IDLE, CurrentMotionStatus = MS_IDLE, NextMotionStatus = MS_IDLE;
+StepStatueTypedef StepStatus = STEP_INIT;
 
 /**
 *	@brief	应用层最底层运动处理.
@@ -31,22 +34,43 @@ void MotionProcess(void)
 	}
 }
 
+bool StepProcess(bool new_flag)
+{
+	static bool finished = false;
+	
+	if(new_flag)
+	{
+		StepStatus = STEP_INIT;
+	}
+	
+	switch(StepStatus)
+	{
+		case STEP_INIT:
+			
+			break;
+		case STEP_RUN:
+			
+			break;
+		case STEP_FINISHED:
+			
+			break;
+	}
+}
+
 
 void MotionCtrlTask(void)
 {
-	NextMotionStatus = MS_SPEED_OPEN;
-	
+	if(!RunFlag.ms1)	return;
+		
+	NextMotionStatus = NavipackComm2.control.mode;		/* Get control mode from master. */
+		
 	CurrentMotionStatus = NextMotionStatus;
-	
 	switch(CurrentMotionStatus)
 	{
 		case MS_IDLE:
 			MotoCtrl.lpwm = 0;
 			MotoCtrl.rpwm = 0;
 			MotoCtrl.ctrl_mode = MC_FREE;
-			break;
-		case MS_STEP:
-			
 			break;
 		case MS_SPEED_LOOP:
 			
@@ -56,10 +80,15 @@ void MotionCtrlTask(void)
 			MotoCtrl.rpwm = 0;
 			MotoCtrl.ctrl_mode = MC_PWM;
 			break;
+		case MS_STEP:
+			
+			break;
 		case MS_TEST:
 			
 			break;
 	}
+	
+	LastMotionStatus = CurrentMotionStatus;
 	
 	MotionProcess();
 }

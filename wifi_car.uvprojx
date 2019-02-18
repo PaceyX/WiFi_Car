@@ -636,6 +636,11 @@
               <FileType>1</FileType>
               <FilePath>.\App\Source\app_task.c</FilePath>
             </File>
+            <File>
+              <FileName>app_global.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\App\Source\app_global.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -25,6 +25,7 @@ typedef struct
 	int32_t rpwm;
 }MotorControlType;
 
+/* Sync with master. */
 typedef enum{
 	MS_IDLE,
 	MS_STEP,
@@ -33,6 +34,11 @@ typedef enum{
 	MS_TEST,
 }MotionStatus_Type;
 
+typedef enum{
+	STEP_INIT,
+	STEP_RUN,
+	STEP_FINISHED,
+} StepStatueTypedef;
 
 
 void MotionCtrlTask(void);
