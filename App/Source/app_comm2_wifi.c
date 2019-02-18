@@ -2,6 +2,7 @@
 #include "queue.h"
 #include "app_tim.h"
 #include "app_comm1.h"
+#include "navipack_api.h"
 
 
 #define UART2_BUFF_SIZE  128
@@ -106,49 +107,42 @@ bool Comm2_PostTxEvent(NaviPack_HeadType *head)
 */
 void Comm2_SendToWifiTask(void)
 {
-//    static NaviPack_HeadType fast_head =
-//    {
-//        NAVIPACK_SLAVE_ID,
-//        MCU_FAST_STATUS_REG,
-//        0,
-//        sizeof(NaviPack_FastStatusType),
-//    };
-//    
-//    static NaviPack_HeadType slow_head =
-//    {
-//        NAVIPACK_SLAVE_ID,
-//        MCU_SLOW_STATUS_REG,
-//        16,
-//        sizeof(NaviPack_SlowStatusType) - 16 ,
-//    };
-//	
-//    static int32_t startup_boost_dly = 0;
-//    static int32_t count_num = 0;
-//	static uint8_t count_debug = 0;
-//	
-//    if (RunFlag.ms1)
-//    {
-//		if (count_num == 12)
-//		{
-//			Comm2_PostTxEvent(&fast_head);
-//			count_num = 0;
-//		}
-//		else
-//		{
-//			count_num++;
-//		}
-//		
-//		if(count_debug >= 100)//send debug data every 100ms
-//		{
-//			count_debug  = 0;
-//			//Comm2_PostTxEvent(&head_debug_10hz);
-//		}
-//		count_debug++;
-//    }
-//    
-//    if(RunFlag.ms20 && (startup_boost_dly >= 3000))
-//    {
-//         Comm2_PostTxEvent(&slow_head);
-//    }
+    static NaviPack_HeadType Status_head =
+    {
+        NAVIPACK_SLAVE_ID,
+        MCU_STATUS_REG,
+        0,
+        sizeof(ChassisStatusRegister),
+    };
+    
+    static NaviPack_HeadType Sensor_head =
+    {
+        NAVIPACK_SLAVE_ID,
+        MCU_SENSOR_REG,
+        16,
+        sizeof(ChassisSensorRegister),
+    };
+	
+    static int32_t startup_boost_dly = 0;
+    static int32_t count_num = 0;
+	
+    if (RunFlag.ms1)
+    {
+		if(count_num == 6 && (startup_boost_dly >= 3000))
+		{
+			Comm2_PostTxEvent(&Sensor_head);
+		}
+		else if (count_num == 12)
+		{
+			Comm2_PostTxEvent(&Status_head);
+			count_num = 0;
+		}
+		else
+		{
+			count_num++;
+		}
+		
+		startup_boost_dly++;
+    }
 }
 

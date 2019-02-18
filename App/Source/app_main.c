@@ -23,7 +23,7 @@ void AppMainLoop(void)
 	while(1)
 	{
 		RunFlagHandleTask();
-//		Comm2_SendToWifiTask();
+		Comm2_SendToWifiTask();
 		Comm1_Task();
 		Comm2_Task();
 		Sample_Task();
@@ -43,7 +43,7 @@ void UserInit(void)
 	Motor_Init();
 	BSP_Ultrasonic_Init();
 	
-	HAL_GPIO_WritePin(GPIOB, NETLINK_Pin, GPIO_PIN_SET);
+	
 }
 
 

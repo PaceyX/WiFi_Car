@@ -177,6 +177,8 @@ void Esp8266_Init(void)
 {
 	char temp[100];
 	
+	HAL_GPIO_WritePin(GPIOB, NETLINK_Pin, GPIO_PIN_SET);
+	
 	/* 复位后返回的信息太多，实际是执行成功的，但是发送函数接收返回ACK的bug不够. */
 #if 0
 	if(Esp8266_Send_Cmd("AT+RST\r\n", "OK", ReceiveAck, 200))
@@ -186,7 +188,7 @@ void Esp8266_Init(void)
 	/* AT Test. */
 	if(Esp8266_Send_Cmd("AT\r\n", "OK", ReceiveAck, 200))
 		Comm1_printf("Esp8266 AT Cmd Test Ok. \n");
-
+	
 	/* Set Mode. */
 	if(ESP8266_Set_Mode(AP))
 		Comm1_printf("AP Mode Set Success. \n");

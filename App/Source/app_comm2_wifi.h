@@ -7,7 +7,7 @@
 #include "navipack_api.h"
 #include "usart_bsp.h"
 
-
+extern NavipackComm_Type NavipackComm2;
 extern CommUsartType CommUsart2;
 
 bool Comm2_Init(UART_HandleTypeDef *huart);

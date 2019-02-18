@@ -39,6 +39,12 @@ typedef struct
 	u32 led;
 }ChassisControlRegister;
 
+// Master Control mode
+#define IDLE_MODE       0
+#define SPEED_MODE      1
+#define CHARGE_MODE     2
+#define STEP_MODE	    3
+
 typedef struct
 {
 	s32 angularPos;
@@ -105,7 +111,7 @@ typedef struct
 typedef NacipackProtocolHeader NaviPack_HeadType;
 typedef ChassisControlRegister NaviPack_CtrlType;
 typedef ChassisStatusRegister  NaviPack_StatusType;
-typedef ChassisStatusRegister  NaviPack_SensorType;
+typedef ChassisSensorRegister  NaviPack_SensorType;
 typedef ChassisCameraRegister  NaviPack_CameraType;
 typedef ChassisMapRgister	   NaviPack_MapDataType;
 typedef ChassisParamterRegister NaviPack_Paramter;
